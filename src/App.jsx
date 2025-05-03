@@ -1,71 +1,69 @@
-import React, { useState } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Navbar from '../Components/Navbar';
-import Home from '../pages/Home';
-import SignupPage from '../pages/SignupPage';
-import SigninPage from '../pages/SigninPage';
-import Wishlist from '../pages/Wishlist';
-import ViewWishlist from '../pages/ViewWishlist';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useCallback } from 'react';
+import React, { useRef } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Navbar from "../Components/Navbar";
+import Home from "../pages/Home";
+import SignupPage from "../pages/SignupPage";
+import SigninPage from "../pages/SigninPage";
+import Wishlist from "../pages/Wishlist";
+import ViewWishlist from "../pages/ViewWishlist";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false); // State for theme toggle
+  const isDarkThemeRef = useRef(true); 
 
- 
-  const toggleTheme = useCallback(() => {
-   
-    setIsDarkTheme(prevTheme => {
-      const newTheme = !prevTheme;
-      document.body.style.backgroundColor = newTheme ? '#333' : '#fff';
-      document.body.style.color = newTheme ? '#fff' : '#000';
-      return newTheme;
-    });
-  }, [ ]);
+  const toggleTheme = () => {
+    console.log("Toggling theme");
+    isDarkThemeRef.current = !isDarkThemeRef.current; 
+    const newTheme = isDarkThemeRef.current;
+
+       document.body.style.backgroundColor = newTheme ? "#333" : "#fff";
+    document.body.style.color = newTheme ? "#fff" : "#000";
+  };
+
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: (
         <>
-          <Navbar isDarkTheme={isDarkTheme} toggleTheme={toggleTheme} />
-          <Home isDarkTheme={isDarkTheme} />
+          <Navbar isDarkTheme={isDarkThemeRef.current} toggleTheme={toggleTheme} />
+          <Home isDarkTheme={isDarkThemeRef.current} />
         </>
       ),
     },
     {
-      path: '/signin',
+      path: "/signin",
       element: (
         <>
-          <Navbar isDarkTheme={isDarkTheme} toggleTheme={toggleTheme} />
-          <SigninPage isDarkTheme={isDarkTheme} />
+          <Navbar isDarkTheme={isDarkThemeRef.current} toggleTheme={toggleTheme} />
+          <SigninPage isDarkTheme={isDarkThemeRef.current} />
         </>
       ),
     },
     {
-      path: '/signup',
+      path: "/signup",
       element: (
         <>
-          <Navbar isDarkTheme={isDarkTheme} toggleTheme={toggleTheme} />
-          <SignupPage isDarkTheme={isDarkTheme} />
+          <Navbar isDarkTheme={isDarkThemeRef.current} toggleTheme={toggleTheme} />
+          <SignupPage isDarkTheme={isDarkThemeRef.current} />
         </>
       ),
     },
     {
-      path: '/wishlist',
+      path: "/wishlist",
       element: (
         <>
-          <Navbar isDarkTheme={isDarkTheme} toggleTheme={toggleTheme} />
-          <Wishlist isDarkTheme={isDarkTheme} />
+          <Navbar isDarkTheme={isDarkThemeRef.current} toggleTheme={toggleTheme} />
+          <Wishlist isDarkTheme={isDarkThemeRef.current} />
         </>
       ),
     },
     {
-      path: '/view-wishlists',
+      path: "/view-wishlists",
       element: (
         <>
-          <Navbar isDarkTheme={isDarkTheme} toggleTheme={toggleTheme} />
-          <ViewWishlist isDarkTheme={isDarkTheme} />
+          <Navbar isDarkTheme={isDarkThemeRef.current} toggleTheme={toggleTheme} />
+          <ViewWishlist isDarkTheme={isDarkThemeRef.current} />
         </>
       ),
     },
@@ -74,7 +72,7 @@ const App = () => {
   return (
     <>
       <RouterProvider router={router} />
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+      <ToastContainer position="top-right" autoClose={1000} hideProgressBar />
     </>
   );
 };
