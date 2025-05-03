@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import logo from '../src/assets/wishlist.png'; // Replace with your logo path
 
-const Navbar = ({ isDarkTheme, toggleTheme }) => {
+const Navbar = ({ isDarkTheme}) => {
   const navigate = useNavigate();
   const location = useLocation(); // Get the current route
   const token = localStorage.getItem('token'); // Check if user is logged in
@@ -81,13 +81,7 @@ const Navbar = ({ isDarkTheme, toggleTheme }) => {
             </Link>
           </>
         )}
-        <button
-          onClick={toggleTheme}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-          aria-label="Toggle Theme"
-        >
-          {isDarkTheme ? 'Light Theme' : 'Dark Theme'}
-        </button>
+       
       </div>
     </nav>
   );
