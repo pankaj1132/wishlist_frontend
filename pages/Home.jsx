@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const Home = ({ isDarkTheme }) => {
   return (
@@ -14,8 +15,8 @@ const Home = ({ isDarkTheme }) => {
         Create and manage your wishlists easily with our simple and intuitive interface.
       </p>
       <div className="flex space-x-4">
-        <a
-          href="/signin"
+        <Link
+          to="/signin"
           className={`px-6 py-3 font-semibold rounded-lg shadow-md transition ${
             isDarkTheme
               ? 'bg-blue-700 text-white hover:bg-blue-800'
@@ -23,9 +24,9 @@ const Home = ({ isDarkTheme }) => {
           }`}
         >
           Sign In
-        </a>
-        <a
-          href="/signup"
+        </Link>
+        <Link
+          to="/signup"
           className={`px-6 py-3 font-semibold rounded-lg shadow-md transition ${
             isDarkTheme
               ? 'bg-gray-700 text-white hover:bg-gray-800'
@@ -33,7 +34,7 @@ const Home = ({ isDarkTheme }) => {
           }`}
         >
           Sign Up
-        </a>
+        </Link>
       </div>
     </div>
   );

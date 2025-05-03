@@ -7,7 +7,7 @@ const ViewWishlist = () => {
   const navigate = useNavigate();
   const [wishlists, setWishlists] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editingId, setEditingId] = useState(null);
+  const [editingId, setEditingId] = useState(null); // ID of the wishlist being edited
   const [name, setName] = useState('');
   const [products, setProducts] = useState([{ name: '', description: '', price: '', image: '' }]);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
@@ -60,6 +60,39 @@ const ViewWishlist = () => {
     }
   };
 
+  // Open the edit form for a wishlist
+  const handleEdit = (wishlist) => {
+    setEditingId(wishlist._id);
+    setName(wishlist.name);
+    setProducts(wishlist.products);
+  };
+
+  // Update a wishlist
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `${API_URL}/wishlist/${editingId}`,
+        { name, products },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success('Wishlist updated successfully!');
+      setWishlists((prev) =>
+        prev.map((wishlist) =>
+          wishlist._id === editingId ? response.data : wishlist
+        )
+      );
+      setEditingId(null); // Close the edit form
+    } catch (error) {
+      console.error('Error updating wishlist:', error);
+      toast.error('Failed to update wishlist.');
+    }
+  };
+
   if (loading) {
     return <div className="text-center mt-10">Loading...</div>;
   }
@@ -94,9 +127,9 @@ const ViewWishlist = () => {
                           />
                         )}
                         <div className="text-center">
-                          <h3 className="text-lg font-semibold"> Product Name :{product.name}</h3>
-                          <p className="text-blue-600 font-bold"> Price: ${product.price}</p>
-                          <p className="text-gray-600"> About :{product.description}</p>
+                          <h3 className="text-lg font-semibold">{product.name}</h3>
+                          <p className="text-blue-600 font-bold">${product.price}</p>
+                          <p className="text-gray-600">{product.description}</p>
                         </div>
                       </li>
                     ))}
@@ -104,10 +137,10 @@ const ViewWishlist = () => {
                 </div>
                 <div className="flex justify-between items-center p-4 border-t">
                   <button
-                    onClick={() => navigate(`/wishlist/${wishlist._id}`)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                    onClick={() => handleEdit(wishlist)}
+                    className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
                   >
-                    Update Details
+                    Edit
                   </button>
                   <button
                     onClick={() => handleDelete(wishlist._id)}
@@ -129,6 +162,88 @@ const ViewWishlist = () => {
           </button>
         </div>
       </div>
+
+      {/* Edit Wishlist Form */}
+      {editingId && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-2xl font-bold mb-4">Edit Wishlist</h2>
+            <form onSubmit={handleUpdate}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Products</label>
+                {products.map((product, index) => (
+                  <div key={index} className="mb-2">
+                    <input
+                      type="text"
+                      placeholder="Product Name"
+                      value={product.name}
+                      onChange={(e) =>
+                        setProducts((prev) =>
+                          prev.map((p, i) =>
+                            i === index ? { ...p, name: e.target.value } : p
+                          )
+                        )
+                      }
+                      className="w-full px-4 py-2 border rounded-lg mb-2"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Description"
+                      value={product.description}
+                      onChange={(e) =>
+                        setProducts((prev) =>
+                          prev.map((p, i) =>
+                            i === index ? { ...p, description: e.target.value } : p
+                          )
+                        )
+                      }
+                      className="w-full px-4 py-2 border rounded-lg mb-2"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Price"
+                      value={product.price}
+                      onChange={(e) =>
+                        setProducts((prev) =>
+                          prev.map((p, i) =>
+                            i === index ? { ...p, price: e.target.value } : p
+                          )
+                        )
+                      }
+                      className="w-full px-4 py-2 border rounded-lg"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  onClick={() => setEditingId(null)}
+                  className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
