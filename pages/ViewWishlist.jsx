@@ -12,10 +12,10 @@ const ViewWishlist = () => {
   const [products, setProducts] = useState([{ name: '', description: '', price: '', image: '' }]);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  const token = localStorage.getItem('token'); // Get the JWT token from localStorage
+  const token = localStorage.getItem('token'); 
   const API_URL = import.meta.env.VITE_URL;
 
-  // Redirect to login if not logged in
+
   useEffect(() => {
     if (!token) {
       toast.error('Please login to view your wishlists.');
@@ -23,7 +23,7 @@ const ViewWishlist = () => {
     }
   }, [token, navigate]);
 
-  // Fetch all wishlists
+ 
   const fetchWishlists = async () => {
     try {
       const response = await axios.get(`${API_URL}/wishlist`, {
@@ -44,7 +44,7 @@ const ViewWishlist = () => {
     fetchWishlists();
   }, []);
 
-  // Delete a wishlist
+  
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/wishlist/${id}`, {
@@ -53,21 +53,20 @@ const ViewWishlist = () => {
         },
       });
       toast.success('Wishlist deleted successfully!');
-      setWishlists((prev) => prev.filter((wishlist) => wishlist._id !== id)); // Update state after deletion
+      setWishlists((prev) => prev.filter((wishlist) => wishlist._id !== id)); 
     } catch (error) {
       console.error('Error deleting wishlist:', error);
       toast.error('Failed to delete wishlist.');
     }
   };
 
-  // Open the edit form for a wishlist
+
   const handleEdit = (wishlist) => {
     setEditingId(wishlist._id);
     setName(wishlist.name);
     setProducts(wishlist.products);
   };
 
-  // Update a wishlist
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -86,7 +85,7 @@ const ViewWishlist = () => {
           wishlist._id === editingId ? response.data : wishlist
         )
       );
-      setEditingId(null); // Close the edit form
+      setEditingId(null); 
     } catch (error) {
       console.error('Error updating wishlist:', error);
       toast.error('Failed to update wishlist.');
@@ -163,7 +162,7 @@ const ViewWishlist = () => {
         </div>
       </div>
 
-      {/* Edit Wishlist Form */}
+    
       {editingId && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">

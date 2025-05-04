@@ -1,18 +1,17 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import logo from '../src/assets/wishlist.png'; // Replace with your logo path
+import logo from '../src/assets/wishlist.png'; 
 
 const Navbar = ({ isDarkTheme}) => {
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current route
-  const token = localStorage.getItem('token'); // Check if user is logged in
+  const location = useLocation(); 
+  const token = localStorage.getItem('token');
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove token
-    toast.success('Logged out successfully!'); // Use toast for better UX
-    navigate('/signin'); // Redirect to signin page
-  };
+    localStorage.removeItem('token'); 
+    toast.success('Logged out successfully!');
+    navigate('/signin'); 
 
   return (
     <nav
@@ -20,10 +19,10 @@ const Navbar = ({ isDarkTheme}) => {
         isDarkTheme ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-800'
       }`}
     >
-      {/* Logo */}
+     
       <div className="flex items-center">
         <img
-          src={logo} // Replace with your logo path
+          src={logo}
           alt="Logo"
           className="h-10 w-10 mr-3"
         />
@@ -32,7 +31,6 @@ const Navbar = ({ isDarkTheme}) => {
         </Link>
       </div>
 
-      {/* Navigation Links */}
       <div className="flex items-center space-x-4">
         {token ? (
           <>
@@ -86,5 +84,6 @@ const Navbar = ({ isDarkTheme}) => {
     </nav>
   );
 };
+}
 
 export default Navbar;

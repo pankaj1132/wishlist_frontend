@@ -6,10 +6,10 @@ import { toast } from 'react-toastify';
 const SigninPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isDarkTheme, setIsDarkTheme] = useState(false); // State for theme toggle
+  const [isDarkTheme, setIsDarkTheme] = useState(false); 
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_URL ;// Fetch API URL from .env
+  const API_URL = import.meta.env.VITE_URL ;
 
   const handleSignin = async (e) => {
     e.preventDefault();
@@ -21,9 +21,9 @@ const SigninPage = () => {
 
       if (response.status === 200) {
         toast.success('Signin successful!');
-        localStorage.setItem('token', response.data.token); // Store JWT token
+        localStorage.setItem('token', response.data.token); 
 
-        // Fetch wishlists after signin
+    
         const token = response.data.token;
         const wishlistResponse = await axios.get(`${API_URL}/wishlist`, {
           headers: {
@@ -31,11 +31,11 @@ const SigninPage = () => {
           },
         });
 
-        // Redirect to ViewWishlist or Wishlist page based on the data
+        
         if (wishlistResponse.data.length > 0) {
-          navigate('/view-wishlists', { state: { wishlists: wishlistResponse.data } }); // Pass wishlists to ViewWishlist
+          navigate('/view-wishlists', { state: { wishlists: wishlistResponse.data } });
         } else {
-          navigate('/wishlist'); // Redirect to Wishlist page if no wishlists exist
+          navigate('/wishlist'); 
         }
       }
     } catch (error) {

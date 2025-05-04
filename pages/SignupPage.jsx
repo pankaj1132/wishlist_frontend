@@ -22,7 +22,7 @@ const SignupPage = () => {
 
       if (response.status === 201) {
         toast.success('Signup successful!');
-        navigate('/signin'); // Redirect to signin page
+        navigate('/signin'); 
       }
     } catch (error) {
       if (error.response) {

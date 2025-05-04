@@ -8,12 +8,12 @@ const Wishlist = () => {
   const [name, setName] = useState('');
   const [products, setProducts] = useState([{ name: '', description: '', price: '', image: '' }]);
   const [loading, setLoading] = useState(true);
-  const [isDarkTheme, setIsDarkTheme] = useState(false); // Added state for theme
+  const [isDarkTheme, setIsDarkTheme] = useState(false); 
   const navigate = useNavigate();
 
-  const token = localStorage.getItem('token'); // Get the JWT token from localStorage
-const API_URL = import.meta.env.VITE_URL ; // Fetch API URL from .env
-  // Redirect to login if not logged in
+  const token = localStorage.getItem('token');
+const API_URL = import.meta.env.VITE_URL ; 
+ 
   useEffect(() => {
     if (!token) {
       toast.error('Please login to access your wishlists.');
@@ -21,7 +21,6 @@ const API_URL = import.meta.env.VITE_URL ; // Fetch API URL from .env
     }
   }, [token, navigate]);
 
-  // Fetch all wishlists
   const fetchWishlists = async () => {
     try {
       const response = await axios.get(`${API_URL}/wishlist`, {
@@ -42,7 +41,6 @@ const API_URL = import.meta.env.VITE_URL ; // Fetch API URL from .env
     fetchWishlists();
   }, []);
 
-  // Create a new wishlist or add products to an existing one
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -80,7 +78,7 @@ const API_URL = import.meta.env.VITE_URL ; // Fetch API URL from .env
     }
   };
 
-  // Remove a product from the product list
+
   const handleRemoveProduct = (index) => {
     setProducts((prev) => prev.filter((_, i) => i !== index));
   };
